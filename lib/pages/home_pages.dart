@@ -9,8 +9,7 @@ class HomePage extends StatelessWidget {
   HomePage();
 
   Future _refrescar() async {
-    await Future.delayed(Duration(seconds: 2));
-    print('Refrescar');
+    await series.cargarSeries();
   }
 
   @override
@@ -31,7 +30,6 @@ class HomePage extends StatelessWidget {
       body: RefreshIndicator(
           onRefresh: () => _refrescar(),
           child: Container(
-              margin: EdgeInsets.all(0),
               color: Colors.black87,
               child: ListView(children: [
                 Column(
@@ -42,19 +40,13 @@ class HomePage extends StatelessWidget {
                     _title('Series:'),
                     _listaSeries(series.seriesAll),
                     _title('mis series:'),
-                    _listaSeries(series.seriesTop),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 30, bottom: 10),
-                          child: Text('mya-app.tech by elgael',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.white)),
-                        )
-                      ],
+                    _listaSeries(series.seriesMis),
+                    Container(
+                      margin: EdgeInsets.only(top: 30, bottom: 10),
+                      child: Text('mya-app.tech by elgael',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              color: Colors.white)),
                     )
                   ],
                 )
@@ -76,9 +68,7 @@ class HomePage extends StatelessWidget {
             var series = snapshot.data ?? [];
             return ListView.builder(
               padding: EdgeInsets.only(left: 5, right: 5),
-              shrinkWrap: false,
               scrollDirection: Axis.horizontal,
-              physics: ClampingScrollPhysics(),
               itemCount: series.length,
               itemBuilder: (_, i) => CardSerie(
                 key: UniqueKey(),
