@@ -12,4 +12,4 @@ const series = {
   'all_series': '$url_host/api/series',
 };
 
-const capitulos = '$url_host/api/series/capitulos?idSerie=';
+const capitulos = '$url_host/api/series/capitulos?idSerie';

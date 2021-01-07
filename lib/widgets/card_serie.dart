@@ -10,6 +10,8 @@ class CardSerie extends StatelessWidget {
   final int capitulos;
   final String descripcion;
 
+  // final _controller;
+
   onpress() {
     print('$id $nombre');
   }
@@ -24,18 +26,18 @@ class CardSerie extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Hero(
-        tag: '$nombre $key',
-        child: GestureDetector(
-          child: Container(
-            width: 120,
-            child: Card(
-              child: Stack(
+    return GestureDetector(
+      child: Container(
+        width: 120,
+        child: Card(
+          child: Stack(
+            children: [
+              imagenFondo(url: url, h: 220, w: 120),
+              Column(
                 children: [
-                  imagenFondo(url: url, h: 220, w: 120),
-                  Column(
-                    children: [
-                      Container(
+                  Hero(
+                      tag: '$nombre $key',
+                      child: Container(
                         width: 220,
                         height: 32,
                         padding: EdgeInsets.only(top: 5, left: 2, right: 2),
@@ -47,27 +49,28 @@ class CardSerie extends StatelessWidget {
                             fontSize: 10,
                           ),
                         ),
-                      )
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.end,
-                  )
+                      ))
                 ],
-              ),
+                mainAxisAlignment: MainAxisAlignment.end,
+              )
+            ],
+          ),
+        ),
+      ),
+      onTap: () {
+        onpress();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CapitulosPage(
+              id: id,
+              nombre: this.nombre,
+              portada: url,
+              tag: '$nombre $key',
             ),
           ),
-          onTap: () {
-            onpress();
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CapitulosPage(
-                  nombre: this.nombre,
-                  portada: url,
-                  tag: '$nombre $key',
-                ),
-              ),
-            );
-          },
-        ));
+        );
+      },
+    );
   }
 }
