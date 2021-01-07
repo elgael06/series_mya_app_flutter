@@ -18,6 +18,15 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Series MYA'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            onPressed: null,
+          ),
+        ],
       ),
       body: RefreshIndicator(
           onRefresh: () => _refrescar(),
@@ -38,10 +47,13 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('by elael',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                color: Colors.white))
+                        Container(
+                          margin: EdgeInsets.only(top: 30, bottom: 10),
+                          child: Text('mya-app.tech by elgael',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.white)),
+                        )
                       ],
                     )
                   ],
@@ -57,7 +69,7 @@ class HomePage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)));
 
   Widget _listaSeries(Stream<List<Serie>> stream) => Container(
-        height: 190,
+        height: 220,
         child: StreamBuilder(
           stream: stream,
           builder: (context, AsyncSnapshot<List<Serie>> snapshot) {
@@ -69,6 +81,8 @@ class HomePage extends StatelessWidget {
               physics: ClampingScrollPhysics(),
               itemCount: series.length,
               itemBuilder: (_, i) => CardSerie(
+                key: UniqueKey(),
+                id: series[i].id,
                 nombre: '${series[i].nombre}',
                 url: '${series[i].portada}',
               ),
