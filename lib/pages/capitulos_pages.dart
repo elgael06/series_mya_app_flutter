@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:series_mya_app/blocs/capitulos_bloc.dart';
 import 'package:series_mya_app/models/capitulo.dart';
 
@@ -7,6 +8,7 @@ class CapitulosPage extends StatelessWidget {
   final String portada;
   final String tag;
   final _controller = CapitulosBloc();
+
   CapitulosPage({
     key,
     id = 0,
@@ -16,6 +18,32 @@ class CapitulosPage extends StatelessWidget {
   }) : super(key: key) {
     _controller.cargar(id);
   }
+
+  showGoogleVideo(String url, BuildContext context) {
+    InAppWebViewController webView;
+    print(url);
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => InAppWebView(
+                  initialUrl: url,
+                  initialHeaders: {},
+                  initialOptions: InAppWebViewGroupOptions(
+                    crossPlatform: InAppWebViewOptions(
+                      debuggingEnabled: true,
+                    ),
+                  ),
+                  onWebViewCreated: (InAppWebViewController controller) {
+                    webView = controller;
+                  },
+                  onLoadStart:
+                      (InAppWebViewController controller, String url) {},
+                  onLoadStop:
+                      (InAppWebViewController controller, String url) {},
+                )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,15 +61,15 @@ class CapitulosPage extends StatelessWidget {
           child: StreamBuilder(
               stream: _controller.getCapitulos,
               builder: (context, AsyncSnapshot<List<Capitulo>> snapshot) {
-                var capitulos = snapshot.data;
-                return snapshot.data != null
+                var capitulos = snapshot.data ?? [];
+                return capitulos.length > 0
                     ? ListView.builder(
                         itemCount: snapshot.data.length ?? 1,
                         itemBuilder: (context, index) => ListTile(
                           title: GestureDetector(
                             onTap: () {
-                              print(
-                                  'capitulo ${capitulos[index].descripcion} click ${capitulos[index].url}');
+                              print('capitulo ${capitulos[index].descripcion}');
+                              showGoogleVideo(capitulos[index].url, context);
                             },
                             child: Container(
                               padding: EdgeInsets.all(10),
