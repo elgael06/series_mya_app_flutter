@@ -22,6 +22,7 @@ class CapitulosPage extends StatelessWidget {
   showGoogleVideo(String url, BuildContext context) {
     InAppWebViewController webView;
     print(url);
+    print(webView);
 
     Navigator.push(
         context,

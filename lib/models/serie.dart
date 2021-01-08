@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Serie {
   int id;
   int idUsuario;
@@ -7,6 +9,16 @@ class Serie {
   int tipo;
   String descripcion;
   bool estatus;
+
+  Serie(
+      {@required this.id,
+      @required this.nombre,
+      @required this.portada,
+      this.idUsuario = 0,
+      this.capitulos = 0,
+      this.descripcion = '',
+      this.estatus = false,
+      this.tipo = 0});
 
   Serie.toJson(Map dato) {
     id = dato['id'];
@@ -18,7 +30,10 @@ class Serie {
     descripcion = dato['descripcion'];
     estatus = dato['estatus'] == 'true';
   }
-  toString() {
-    return '$id  $nombre';
+
+  toString() => '$id  $nombre';
+
+  Map<String, dynamic> toMap() {
+    return {'id': id, 'nombre': nombre, 'portada': portada};
   }
 }
